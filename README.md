@@ -6,4 +6,4 @@ O objetivo deste projeto é construir um **Cenário** 3D que seja possível inte
 ## :hammer_and_wrench: Tecnologias Usadas
 ### Python
 ## :octocat: Equipe
-Este projeto está sendo desenvolvido por [José Daniel](https://github.com/JoseDanielF), [Maria Eduarda](https://github.com/) e [Luiz Fellipe](https://github.com/)
+Este projeto está sendo desenvolvido por [José Daniel](https://github.com/JoseDanielF), [Maria Eduarda](https://github.com/) e [Luiz Fellipe](https://github.com/Luizfdarb)
