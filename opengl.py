@@ -1,9 +1,9 @@
-# Importando os módulos necessários
+# Módulos
 import pygame
 from OpenGL.GL import *
 from OpenGL.GLU import *
 import math
-import graficos  # Supondo que "graficos" seja um módulo personalizado contendo funções de renderização
+import graficos 
 
 # Definição da classe Dado
 class Dado(object):
@@ -14,13 +14,13 @@ class Dado(object):
     tecla_baixo = False
     angulo = 0
     angulo_cubo = 0
-    def __init__(self):
+    def __init__(self, textura, coordenadas):
         # Inicialização de variáveis e carregamento de texturas e modelos
         self.vertices = []
         self.faces = []
-        self.rubik_id = graficos.carregar_textura("dado.png")  # Carrega a textura do cubo
+        self.rubik_id = graficos.carregar_textura(textura)  # Carrega a textura do cubo
         self.surface_id = graficos.carregar_textura("textura.png")  # Carrega a textura da superfície
-        self.coordenadas = [15, 0, 0]  # Coordenadas iniciais da câmera
+        self.coordenadas = coordenadas  # Coordenadas iniciais da câmera
         self.terreno = graficos.CarregadorObjeto("plano.txt")  # Carrega o modelo do plano
         self.piramide = graficos.CarregadorObjeto("cena.txt")  # Carrega o modelo da pirâmide
         self.dado = graficos.CarregadorObjeto("dado.txt")  # Carrega o modelo do cubo
@@ -112,7 +112,9 @@ class Dado(object):
 # Função principal do programa
 def principal():
     pygame.init()
-    pygame.display.set_mode((1024, 768), pygame.DOUBLEBUF | pygame.OPENGL)  # Inicializa a janela Pygame
+    largura_janela = 1024
+    altura_janela = 768
+    pygame.display.set_mode((largura_janela, altura_janela), pygame.DOUBLEBUF | pygame.OPENGL)  # Inicializa a janela Pygame
     pygame.display.set_caption("PyOpenGL 3D")
     relogio = pygame.time.Clock()
     feito = False
@@ -120,15 +122,16 @@ def principal():
     # Configuração da matriz de projeção
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
-    gluPerspective(45, 640.0 / 480.0, 0.1, 200.0)
+    gluPerspective(45, largura_janela / altura_janela, 0.1, 200.0)
     glEnable(GL_DEPTH_TEST)
     glEnable(GL_LIGHTING)
     glEnable(GL_LIGHT0)
     glEnable(GL_NORMALIZE)
 
-    # Instanciação do objeto Dado
-    dado = Dado()
-    
+    # Instanciação dos objetos Dado com diferentes coordenadas
+    dado1 = Dado("dado.png", [-5, 0, 0])
+    dado2 = Dado("dado_verde.png", [5, 0, 0])
+
     # Loop principal do jogo
     while not feito:
         for evento in pygame.event.get(): 
@@ -137,35 +140,50 @@ def principal():
             if evento.type == pygame.KEYDOWN:
                 # Eventos de pressionamento de tecla
                 if evento.key == pygame.K_LEFT or evento.key == pygame.K_a:
-                    dado.mover_esquerda()
-                    dado.tecla_esquerda = True
+                    dado1.mover_esquerda()
+                    dado1.tecla_esquerda = True
+                    dado2.mover_esquerda()
+                    dado2.tecla_esquerda = True
                 elif evento.key == pygame.K_RIGHT or evento.key == pygame.K_d:
-                    dado.mover_direita()
-                    dado.tecla_direita = True
+                    dado1.mover_direita()
+                    dado1.tecla_direita = True
+                    dado2.mover_direita()
+                    dado2.tecla_direita = True
                 elif evento.key == pygame.K_UP or evento.key == pygame.K_w:
-                    dado.mover_frente()
-                    dado.tecla_cima = True
+                    dado1.mover_frente()
+                    dado1.tecla_cima = True
+                    dado2.mover_frente()
+                    dado2.tecla_cima = True
                 elif evento.key == pygame.K_DOWN or evento.key == pygame.K_s:
-                    dado.mover_trás()
-                    dado.tecla_baixo = True
+                    dado1.mover_trás()
+                    dado1.tecla_baixo = True
+                    dado2.mover_trás()
+                    dado2.tecla_baixo = True
             if evento.type == pygame.KEYUP:
                 # Eventos de liberação de tecla
                 if evento.key == pygame.K_LEFT or evento.key == pygame.K_a:
-                    dado.liberar_tecla()
+                    dado1.liberar_tecla()
+                    dado2.liberar_tecla()
                 elif evento.key == pygame.K_RIGHT or evento.key == pygame.K_d:
-                    dado.liberar_tecla()
+                    dado1.liberar_tecla()
+                    dado2.liberar_tecla()
                 elif evento.key == pygame.K_UP or evento.key == pygame.K_w:
-                    dado.liberar_tecla()
+                    dado1.liberar_tecla()
+                    dado2.liberar_tecla()
                 elif evento.key == pygame.K_DOWN or evento.key == pygame.K_s:
-                    dado.liberar_tecla()
+                    dado1.liberar_tecla()
+                    dado2.liberar_tecla()
         
-        dado.atualizar()
-        dado.renderizar_cena()
+        dado1.atualizar()
+        dado2.atualizar()
+        dado1.renderizar_cena()
+        dado2.renderizar_cena()
         
         pygame.display.flip()
         relogio.tick(30)
     
-    dado.deletar_textura()
+    dado1.deletar_textura()
+    dado2.deletar_textura()
     pygame.quit()
 
 if __name__ == '__main__':
