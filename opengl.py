@@ -23,7 +23,7 @@ class Bloco(object):
         self.coordenadas = coordenadas  # Coordenadas iniciais da câmera
         self.terreno = graficos.CarregadorObjeto("plano.txt")  # Carrega o modelo do plano
         self.piramide = graficos.CarregadorObjeto("cena.txt")  # Carrega o modelo da pirâmide
-        self.dado = graficos.CarregadorObjeto("dado.txt")  # Carrega o modelo do cubo
+        self.bloco = graficos.CarregadorObjeto("bloco.txt")  # Carrega o modelo do cubo
 
     # Renderização da cena
     def renderizar_cena(self):
@@ -51,7 +51,7 @@ class Bloco(object):
         glTranslatef(0, 2, 0)
         glRotatef(self.angulo_bloco, 0, 1, 0)
         glRotatef(45, 0, 0, 1)
-        self.dado.renderizar_dado(self.rubik_id, ((0, 0), (1, 0), (1, 1), (0, 1)))  # Renderiza o cubo
+        self.bloco.renderizar_dado(self.rubik_id, ((0, 0), (1, 0), (1, 1), (0, 1)))  # Renderiza o cubo
 
     # Métodos para movimentação da câmera e do cubo
     def mover_frente(self):
