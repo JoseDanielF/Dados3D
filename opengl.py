@@ -5,21 +5,21 @@ from OpenGL.GLU import *
 import math
 import graficos 
 
-# Definição da classe Dado
-class Dado(object):
+# Definição da classe Bloco
+class Bloco(object):
     # Inicialização da classe
     tecla_esquerda = False
     tecla_direita = False
     tecla_cima = False
     tecla_baixo = False
     angulo = 0
-    angulo_cubo = 0
+    angulo_bloco = 0
     def __init__(self, textura, coordenadas):
         # Inicialização de variáveis e carregamento de texturas e modelos
         self.vertices = []
         self.faces = []
         self.rubik_id = graficos.carregar_textura(textura)  # Carrega a textura do cubo
-        self.surface_id = graficos.carregar_textura("textura.png")  # Carrega a textura da superfície
+        self.surface_id = graficos.carregar_textura("grama.png")  # Carrega a textura da superfície
         self.coordenadas = coordenadas  # Coordenadas iniciais da câmera
         self.terreno = graficos.CarregadorObjeto("plano.txt")  # Carrega o modelo do plano
         self.piramide = graficos.CarregadorObjeto("cena.txt")  # Carrega o modelo da pirâmide
@@ -49,7 +49,7 @@ class Dado(object):
         
         # Translação e rotação do cubo
         glTranslatef(0, 2, 0)
-        glRotatef(self.angulo_cubo, 0, 1, 0)
+        glRotatef(self.angulo_bloco, 0, 1, 0)
         glRotatef(45, 0, 0, 1)
         self.dado.renderizar_dado(self.rubik_id, ((0, 0), (1, 0), (1, 1), (0, 1)))  # Renderiza o cubo
 
@@ -76,7 +76,7 @@ class Dado(object):
         self.angulo += n
             
     def atualizar(self):
-        # Atualizações de movimento da câmera e do cubo
+        # Atualizações de movimento da câmera e do bloco
         if self.tecla_esquerda:
             self.mover_esquerda()
         elif self.tecla_direita:
@@ -88,14 +88,14 @@ class Dado(object):
             
         pos = pygame.mouse.get_pos()
         if pos[0] < 75:
-            self.girar(-1.2)
+            self.girar(-0.5)  # Reduzindo a velocidade de rotação
         elif pos[0] > 565:
-            self.girar(1.2)
+            self.girar(0.5)  # Reduzindo a velocidade de rotação
         
-        if self.angulo_cubo >= 360:
-            self.angulo_cubo = 0
+        if self.angulo_bloco >= 360:
+            self.angulo_bloco = 0
         else:
-            self.angulo_cubo += 0.5
+            self.angulo_bloco += 0.2  # Reduzindo a velocidade de rotação
     
     def liberar_tecla(self):
         # Função chamada quando uma tecla é liberada
@@ -105,9 +105,10 @@ class Dado(object):
         self.tecla_baixo = False
     
     def deletar_textura(self):
-        # Função para deletar as texturas carregadas
-        glDeleteTextures(self.rubik_id)
-        glDeleteTextures(self.surface_id)
+        # Deleta a textura do cubo
+        glDeleteTextures(1, (GLuint * 1)(self.rubik_id))
+        # Deleta a textura da superfície
+        glDeleteTextures(1, (GLuint * 1)(self.surface_id))
 
 # Função principal do programa
 def principal():
@@ -128,9 +129,8 @@ def principal():
     glEnable(GL_LIGHT0)
     glEnable(GL_NORMALIZE)
 
-    # Instanciação dos objetos Dado com diferentes coordenadas
-    dado1 = Dado("dado.png", [-5, 0, 0])
-    dado2 = Dado("dado_verde.png", [5, 0, 0])
+    # Instanciação dos objetos Bloco com diferentes coordenadas
+    bloco1 = Bloco("minecraft_bloco.png", [-5, 0, 0])
 
     # Loop principal do jogo
     while not feito:
@@ -140,50 +140,34 @@ def principal():
             if evento.type == pygame.KEYDOWN:
                 # Eventos de pressionamento de tecla
                 if evento.key == pygame.K_LEFT or evento.key == pygame.K_a:
-                    dado1.mover_esquerda()
-                    dado1.tecla_esquerda = True
-                    dado2.mover_esquerda()
-                    dado2.tecla_esquerda = True
+                    bloco1.mover_esquerda()
+                    bloco1.tecla_esquerda = True
                 elif evento.key == pygame.K_RIGHT or evento.key == pygame.K_d:
-                    dado1.mover_direita()
-                    dado1.tecla_direita = True
-                    dado2.mover_direita()
-                    dado2.tecla_direita = True
+                    bloco1.mover_direita()
+                    bloco1.tecla_direita = True
                 elif evento.key == pygame.K_UP or evento.key == pygame.K_w:
-                    dado1.mover_frente()
-                    dado1.tecla_cima = True
-                    dado2.mover_frente()
-                    dado2.tecla_cima = True
+                    bloco1.mover_frente()
+                    bloco1.tecla_cima = True
                 elif evento.key == pygame.K_DOWN or evento.key == pygame.K_s:
-                    dado1.mover_trás()
-                    dado1.tecla_baixo = True
-                    dado2.mover_trás()
-                    dado2.tecla_baixo = True
+                    bloco1.mover_trás()
+                    bloco1.tecla_baixo = True
             if evento.type == pygame.KEYUP:
                 # Eventos de liberação de tecla
                 if evento.key == pygame.K_LEFT or evento.key == pygame.K_a:
-                    dado1.liberar_tecla()
-                    dado2.liberar_tecla()
+                    bloco1.liberar_tecla()
                 elif evento.key == pygame.K_RIGHT or evento.key == pygame.K_d:
-                    dado1.liberar_tecla()
-                    dado2.liberar_tecla()
+                    bloco1.liberar_tecla()
                 elif evento.key == pygame.K_UP or evento.key == pygame.K_w:
-                    dado1.liberar_tecla()
-                    dado2.liberar_tecla()
+                    bloco1.liberar_tecla()
                 elif evento.key == pygame.K_DOWN or evento.key == pygame.K_s:
-                    dado1.liberar_tecla()
-                    dado2.liberar_tecla()
+                    bloco1.liberar_tecla()
         
-        dado1.atualizar()
-        dado2.atualizar()
-        dado1.renderizar_cena()
-        dado2.renderizar_cena()
-        
+        bloco1.atualizar()
+        bloco1.renderizar_cena()
+        relogio.tick(60)
         pygame.display.flip()
-        relogio.tick(30)
     
-    dado1.deletar_textura()
-    dado2.deletar_textura()
+    bloco1.deletar_textura()
     pygame.quit()
 
 if __name__ == '__main__':
