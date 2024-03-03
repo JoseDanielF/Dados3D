@@ -118,7 +118,7 @@ def principal():
     pygame.display.set_mode((largura_janela, altura_janela), pygame.DOUBLEBUF | pygame.OPENGL)  # Inicializa a janela Pygame
     pygame.display.set_caption("PyOpenGL 3D")
     relogio = pygame.time.Clock()
-    feito = False
+    encerrado = False
     
     # Configuração da matriz de projeção
     glMatrixMode(GL_PROJECTION)
@@ -133,10 +133,10 @@ def principal():
     bloco1 = Bloco("minecraft_bloco.png", [-5, 0, 0])
 
     # Loop principal do jogo
-    while not feito:
+    while not encerrado:
         for evento in pygame.event.get(): 
             if evento.type == pygame.QUIT: 
-                feito = True 
+                encerrado = True 
             if evento.type == pygame.KEYDOWN:
                 # Eventos de pressionamento de tecla
                 if evento.key == pygame.K_LEFT or evento.key == pygame.K_a:
