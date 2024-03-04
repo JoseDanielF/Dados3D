@@ -128,8 +128,7 @@ def principal():
     glEnable(GL_LIGHTING)
     glEnable(GL_LIGHT0)
     glEnable(GL_NORMALIZE)
-
-    # Instanciação dos objetos Bloco com diferentes coordenadas
+    
     bloco1 = Bloco("minecraft_bloco.png", [-5, 0, 0])
 
     # Loop principal do jogo
