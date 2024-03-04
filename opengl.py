@@ -88,14 +88,14 @@ class Bloco(object):
             
         pos = pygame.mouse.get_pos()
         if pos[0] < 75:
-            self.girar(-0.5)  # Reduzindo a velocidade de rotação
+            self.girar(-1)  # Reduzindo a velocidade de rotação
         elif pos[0] > 565:
-            self.girar(0.5)  # Reduzindo a velocidade de rotação
+            self.girar(1)  # Reduzindo a velocidade de rotação
         
         if self.angulo_bloco >= 360:
             self.angulo_bloco = 0
         else:
-            self.angulo_bloco += 0.2  # Reduzindo a velocidade de rotação
+            self.angulo_bloco += 0.5 # Reduzindo a velocidade de rotação
     
     def liberar_tecla(self):
         # Função chamada quando uma tecla é liberada
