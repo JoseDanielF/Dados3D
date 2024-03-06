@@ -5,9 +5,7 @@ from OpenGL.GLU import *
 import math
 import graficos 
 
-# Definição da classe Bloco
 class Bloco(object):
-    # Inicialização da classe
     tecla_esquerda = False
     tecla_direita = False
     tecla_cima = False
@@ -131,7 +129,6 @@ def principal():
     
     bloco1 = Bloco("minecraft_bloco.png", [-5, 0, 0])
 
-    # Loop principal do jogo
     while not encerrado:
         for evento in pygame.event.get(): 
             if evento.type == pygame.QUIT: 

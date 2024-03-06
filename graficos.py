@@ -18,7 +18,7 @@ class CarregadorObjeto(object):
         self.vertices = []
         self.quad_faces = []
         self.normals = []
-        #-----------------------
+       
         try:
             f = open(filename)
             n = 1
@@ -43,7 +43,6 @@ class CarregadorObjeto(object):
                     
                 elif line[0] == "f":
                     string = line.replace("//","/")
-                    #---------------------------------------------------
                     i = string.find(" ")+1
                     face  = []
                     for item in range(string.count(" ")):
@@ -52,7 +51,6 @@ class CarregadorObjeto(object):
                             break
                         face.append(string[i:string.find(" ",i)])
                         i = string.find(" ",i) +1
-                    #---------------------------------------------------
             self.quad_faces.append(tuple(face))
                    
             f.close()
@@ -61,7 +59,6 @@ class CarregadorObjeto(object):
             
     def renderizar_cena(self):    
         if len(self.quad_faces) > 0:
-            #----------------------------------
             glBegin(GL_QUADS)
             for face in (self.quad_faces):
                 n = face[0]
@@ -70,7 +67,6 @@ class CarregadorObjeto(object):
                 for f in (face):
                     glVertex3fv(self.vertices[int(f[:f.find("/")])-1])
             glEnd()
-            #-----------------------------------
        
     def renderizar_textura(self,textureID,texcoord):
         glEnable(GL_TEXTURE_2D)
