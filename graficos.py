@@ -84,7 +84,7 @@ class CarregadorObjeto(object):
     
         glDisable(GL_TEXTURE_2D)
        
-    def renderizar_dado(self,textureID,texcoord):
+    def renderizar_cubo(self,textureID,texcoord):
         glEnable(GL_TEXTURE_2D)
         glBindTexture(GL_TEXTURE_2D,textureID)
         glBegin(GL_POLYGON); 
